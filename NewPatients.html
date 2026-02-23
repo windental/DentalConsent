@@ -211,7 +211,7 @@ all instructions given by the dentist.
 <input type="date" id="dateInput" name="date">
 <h3>Signature</h3>
 
-<canvas id="signature-pad" class="signature-box" required></canvas>
+<canvas id="signature-pad" class="signature-box"></canvas>
 </div><button type="button" onclick="clearSignature()">Clear Signature</button>
       <button type="submit">Submit</button>
 
@@ -227,7 +227,9 @@ let drawing = false;
 canvas.addEventListener('mousedown', () => drawing = true);
 canvas.addEventListener('mouseup', () => drawing = false);
 canvas.addEventListener('mousemove', draw);
-
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+    
 function draw(e) {
     if (!drawing) return;
     ctx.lineWidth = 2;
