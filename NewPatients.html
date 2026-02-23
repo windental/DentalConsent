@@ -36,10 +36,29 @@ input, textarea, select {
 .checkbox-group {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    border: 1px solid #ccc;
 }
 
 .checkbox-group label {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.checkbox-group label:nth-child(2n) {
+    border-right: none;
+}
+
+.checkbox-group label:nth-last-child(-n + 2) {
+    border-bottom: none;
 }
 
 .signature-box {
@@ -58,43 +77,14 @@ button {
     margin-top: 40px;
     font-weight: bold;
 }
-
-.checkbox-group input[type="checkbox"] {
-    width: auto;      /* IMPORTANT */
-    margin: 0;
-}
-  
-.checkbox-group {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  border: 1px solid #ccc;
-}
-
-.checkbox-group label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* KEY LINE */
-  padding: 8px 10px;
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-}
-
-/* Remove right border on every 2nd item */
-.checkbox-group label:nth-child(2n) {
-  border-right: none;
-}
-
-/* Remove bottom border on last row */
-.checkbox-group label:nth-last-child(-n + 2) {
-  border-bottom: none;
-}
 </style>
 </head>
-
 <body>
 
+<div id="pdfContent">
 <h1>WIN DENTAL CLINIC</h1>
 <h2>New Patient Registration Form</h2>
+
 <form id="newPTConsentForm">
 
 <div class="section">
@@ -113,10 +103,10 @@ button {
 <input type="text" name="home">
 
 <label>Email*</label>
-<input type="email" name="email">
+<input type="email" name="email" required>
 
 <label>NRIC / Passport No*</label>
-<input type="text" name="nric">
+<input type="text" name="nric" required>
 
 <label>Address</label>
 <textarea name="address"></textarea>
@@ -138,7 +128,6 @@ button {
 
 <label>Language Written</label>
 <input type="text" name="language_written">
-
 </div>
 
 <div class="section">
@@ -173,15 +162,13 @@ button {
 <label>Kidney Disease<input type="checkbox"></label>
 </div>
 
-</br>  
+<br>
 <label>Drug Allergies</label>
 <textarea name="allergy"></textarea>
-
 </div>
 
 <div class="section">
 <h3>Informed Consent</h3>
-
 <p>
 I understand that dental treatment may involve risks and benefits. 
 I acknowledge that I have discussed treatment options with the dentist 
@@ -194,10 +181,9 @@ all instructions given by the dentist.
 </p>
 
 <label>
-<input type="checkbox" required class="inline" required> 
+<input type="checkbox" required class="inline">
 <b>I have read and agree to the above consent terms.*</b>
 </label>
-
 </div>
 
 <div class="section">
@@ -209,34 +195,48 @@ all instructions given by the dentist.
 
 <label>Date</label>
 <input type="date" id="dateInput" name="date">
-<h3>Signature</h3>
 
+<h3>Signature</h3>
 <canvas id="signature-pad" class="signature-box" required></canvas>
-</div><button type="button" onclick="clearSignature()">Clear Signature</button>
-      <button type="submit">Submit</button>
+</div>
+
+<button type="button" onclick="clearSignature()">Clear Signature</button>
+<button type="submit">Submit</button>
 
 <div class="footer">
 WIN DENTAL SDN. BHD. (1579600-P)
 </div>
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+// Signature Canvas
 const canvas = document.getElementById('signature-pad');
 const ctx = canvas.getContext('2d');
 let drawing = false;
 
+function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    ctx.scale(ratio, ratio);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
 canvas.addEventListener('mousedown', () => drawing = true);
 canvas.addEventListener('mouseup', () => drawing = false);
+canvas.addEventListener('mouseout', () => drawing = false);
 canvas.addEventListener('mousemove', draw);
 
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
-
-  function draw(e) {
+function draw(e) {
     if (!drawing) return;
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
     ctx.strokeStyle = '#000';
-
     const rect = canvas.getBoundingClientRect();
     ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
     ctx.stroke();
@@ -254,44 +254,37 @@ function isCanvasEmpty(canvas) {
     blank.height = canvas.height;
     return canvas.toDataURL() === blank.toDataURL();
 }
-  
-const today = new Date().toISOString().split('T')[0]; // get YYYY-MM-DD format
-document.getElementById('dateInput').value = today;
 
-document.getElementById("newPTConsentForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  if (!this.checkValidity()) {
-      alert("Please fill in all required fields.");
-      return;
-  }
+// Set today's date
+document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
 
-  if (isCanvasEmpty(canvas)) {
-      alert("Please provide your signature before submitting.");
-      return;
-  }
+// Form Submission and PDF
+document.getElementById("newPTConsentForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    if (!this.checkValidity()) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+    if (isCanvasEmpty(canvas)) {
+        alert("Please provide your signature before submitting.");
+        return;
+    }
+
     const { jsPDF } = window.jspdf;
-
     const element = document.getElementById("pdfContent");
 
-    const canvasImage = await html2canvas(element, {
-        scale: 2
-    });
-
+    const canvasImage = await html2canvas(element, { scale: 2 });
     const imgData = canvasImage.toDataURL("image/png");
 
     const pdf = new jsPDF("p", "mm", "a4");
-
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (canvasImage.height * pdfWidth) / canvasImage.width;
 
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-
     pdf.save("Patient_Registration.pdf");
-  
-  alert("Registration submitted!");
+
+    alert("Registration submitted!");
 });
-src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">  
 </script>
 
 </body>
