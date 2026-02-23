@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dental Consent Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label { display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 5px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+  <h2>Dental Consent Form</h2>
+  <form id="consentForm">
+    <label>Full Name
+      <input type="text" name="name" required>
+    </label>
+    <label>IC / Passport Number
+      <input type="text" name="ic" required>
+    </label>
+    <label>Procedure
+      <textarea name="procedure" required></textarea>
+    </label>
+    <label>Consent
+      <input type="checkbox" name="agree" required> I have read and understood the procedure and give my consent.
+    </label>
+    <label>Signature (draw here)
+      <canvas id="signature" width="400" height="150" style="border:1px solid #000;"></canvas>
+      <button type="button" onclick="clearCanvas()">Clear</button>
+    </label>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const canvas = document.getElementById("signature");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("mousedown", e => { drawing = true; ctx.moveTo(e.offsetX, e.offsetY); });
+    canvas.addEventListener("mousemove", e => { if(drawing) ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
+    canvas.addEventListener("mouseup", () => drawing = false);
+    canvas.addEventListener("mouseout", () => drawing = false);
+
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    document.getElementById("consentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Consent submitted! You can extend this to save data via a backend or Google Forms.");
+    });
+  </script>
+</body>
+</html>
