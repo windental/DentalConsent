@@ -11,6 +11,10 @@ body {
     margin: 30px;
     line-height: 1.6;
     position: relative;
+    background-image: url('Images/win-dental-logo.png');
+    background-repeat: no-repeat;
+    background-position: top 20px left 20px;
+    background-size: 150px;
 }
 
 body::before {
@@ -236,13 +240,9 @@ WIN DENTAL SDN. BHD. (1579600-P)
 
 <script>
 // Signature Canvas
-document.body.style.overflow = "hidden";
-document.body.style.overflow = "auto";
 const canvas = document.getElementById('signature-pad');
 const ctx = canvas.getContext('2d');
 let drawing = false;
-canvas.addEventListener("touchstart", e => e.preventDefault(), { passive: false });
-canvas.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
 
 function resizeCanvas() {
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
@@ -253,10 +253,28 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-canvas.addEventListener('mousedown', () => drawing = true);
-canvas.addEventListener('mouseup', () => drawing = false);
-canvas.addEventListener('mouseout', () => drawing = false);
+// Prevent scrolling    
+canvas.addEventListener("touchstart", e => e.preventDefault(), { passive: false });
+canvas.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
+
+// Mouse events
+canvas.addEventListener('mousedown', e => { drawing = true; draw(e); });
 canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', () => { drawing = false; ctx.beginPath(); });
+canvas.addEventListener('mouseout', () => { drawing = false; ctx.beginPath(); });
+
+// Touch events
+canvas.addEventListener('touchstart', e => {
+    drawing = true;
+    const touch = e.touches[0];
+    drawTouch(touch);
+});
+canvas.addEventListener('touchmove', e => {
+    if (!drawing) return;
+    const touch = e.touches[0];
+    drawTouch(touch);
+});
+canvas.addEventListener('touchend', () => { drawing = false; ctx.beginPath(); });
 
 function draw(e) {
     if (!drawing) return;
@@ -270,6 +288,17 @@ function draw(e) {
     ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
 }
 
+function drawTouch(touch) {
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+}
+    
 function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
