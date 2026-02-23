@@ -239,6 +239,13 @@ WIN DENTAL SDN. BHD. (1579600-P)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+
+const mainNameField = document.querySelector('input[name="name"]');
+const patientNameField = document.querySelector('input[name="patient_name"]');
+mainNameField.addEventListener('input', () => {
+    patientNameField.value = mainNameField.value;
+});
+    
 // Signature Canvas
 const canvas = document.getElementById('signature-pad');
 const ctx = canvas.getContext('2d');
