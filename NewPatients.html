@@ -287,7 +287,25 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
         if (heightLeft > 0) pdf.addPage();
         position -= pdf.internal.pageSize.getHeight();
     }
-    pdf.save("Patient_Registration.pdf");
+
+    // Get name field value
+    const patientName = document.querySelector('input[name="name"]').value.trim().replace(/\s+/g, '_');
+    
+    // Generate timestamp
+    const now = new Date();
+    const timestamp = now.getFullYear() + '-' +
+                      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                      String(now.getDate()).padStart(2, '0') + '_' +
+                      String(now.getHours()).padStart(2, '0') + '-' +
+                      String(now.getMinutes()).padStart(2, '0') + '-' +
+                      String(now.getSeconds()).padStart(2, '0');
+    
+    // Combine for filename
+    const filename = `Patient_Registration_${patientName}_${timestamp}.pdf`;
+    
+    // Save PDF
+    pdf.save(filename);
+
 
     alert("Registration submitted!");
 });
