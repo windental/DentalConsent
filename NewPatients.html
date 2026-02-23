@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<img src="Images/win-dental-logo.png" class="top-left-logo" alt="Win Dental Logo">
 <head>
 <meta charset="UTF-8">
 <title>Win Dental - Patient Registration & Consent</title>
@@ -372,7 +373,7 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     const filename = `${timestamp}NewPatient_${patientName}.pdf`;
     
     // Save PDF
-    pdf.save(filename);
+    //pdf.save(filename);
 
     // iPhone-safe download
     const pdfBlob = pdf.output('blob');
