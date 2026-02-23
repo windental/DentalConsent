@@ -1,53 +1,237 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dental Consent Form</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    label { display: block; margin-top: 10px; }
-    input, textarea { width: 100%; padding: 5px; margin-top: 5px; }
-    button { margin-top: 15px; padding: 10px 20px; }
-  </style>
+<meta charset="UTF-8">
+<title>Win Dental - Patient Registration & Consent</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.section {
+    margin-top: 30px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.inline {
+    width: auto;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.checkbox-group label {
+    display: block;
+}
+
+.signature-box {
+    border: 1px solid #000;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 15px;
+    margin-top: 5px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* two columns */
+    gap: 1px 1px; /* row-gap: 5px, column-gap: 20px */
+    align-items: right;
+}
+
+.checkbox-group label {
+    display: flex;      /* align checkbox and text horizontally */
+    align-items: center; 
+    gap: 8px;           /* space between checkbox and text */
+}  
+</style>
 </head>
+
 <body>
-  <h2>Dental Consent Form</h2>
-  <form id="consentForm">
-    <label>Full Name
-      <input type="text" name="name" required>
-    </label>
-    <label>IC / Passport Number
-      <input type="text" name="ic" required>
-    </label>
-    <label>Procedure
-      <textarea name="procedure" required></textarea>
-    </label>
-    <label>Consent
-      <input type="checkbox" name="agree" required> I have read and understood the procedure and give my consent.
-    </label>
-    <label>Signature (draw here)
-      <canvas id="signature" width="400" height="150" style="border:1px solid #000;"></canvas>
-      <button type="button" onclick="clearCanvas()">Clear</button>
-    </label>
-    <button type="submit">Submit</button>
-  </form>
 
-  <script>
-    const canvas = document.getElementById("signature");
-    const ctx = canvas.getContext("2d");
-    let drawing = false;
+<h1>WIN DENTAL CLINIC</h1>
+<h2>New Patient Registration Form</h2>
 
-    canvas.addEventListener("mousedown", e => { drawing = true; ctx.moveTo(e.offsetX, e.offsetY); });
-    canvas.addEventListener("mousemove", e => { if(drawing) ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
-    canvas.addEventListener("mouseup", () => drawing = false);
-    canvas.addEventListener("mouseout", () => drawing = false);
+<div class="section">
+<h3>Personal Information</h3>
 
-    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+<label>Name*</label>
+<input type="text" name="name" required>
 
-    document.getElementById("consentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("Consent submitted! You can extend this to save data via a backend or Google Forms.");
-    });
-  </script>
+<label>Birthday*</label>
+<input type="date" name="birthday" required>
+
+<label>Mobile Phone*</label>
+<input type="text" name="mobile" required>
+
+<label>Home Tel</label>
+<input type="text" name="home">
+
+<label>Email*</label>
+<input type="email" name="email">
+
+<label>NRIC / Passport No*</label>
+<input type="text" name="nric">
+
+<label>Address</label>
+<textarea name="address"></textarea>
+
+<label>Postcode</label>
+<input type="text" name="postcode">
+
+<label>City / State</label>
+<input type="text" name="city">
+
+<label>Country</label>
+<input type="text" name="country">
+
+<label>Occupation</label>
+<input type="text" name="occupation">
+
+<label>Language Spoken</label>
+<input type="text" name="language_spoken">
+
+<label>Language Written</label>
+<input type="text" name="language_written">
+
+</div>
+
+<div class="section">
+<h3>Medical Condition</h3>
+
+<div class="checkbox-group">
+  <div><input type="checkbox" id="chk1"><label for="chk1">High Blood Pressure</label></div>
+  <div><input type="checkbox" id="chk2"><label for="chk2">Diabetes Mellitus</label></div>
+<label>High Blood Pressure<input type="checkbox"></label>
+<label>Diabetes Mellitus<input type="checkbox"></label>
+<label>Hypercholesterolemia<input type="checkbox"></label>
+<label>Heart Defect<input type="checkbox"></label>
+<label>Rheumatic Fever<input type="checkbox"></label>
+<label>Heart Murmur<input type="checkbox"></label>
+<label>Mitral Valve Prolapse<input type="checkbox"></label>
+<label>Angina / Chest Pain<input type="checkbox"></label>
+<label>Stroke<input type="checkbox"></label>
+<label>Blood Disease<input type="checkbox"></label>
+<label>Haemophilia<input type="checkbox"></label>
+<label>Epilepsy<input type="checkbox"></label>
+<label>Thyroid Disease<input type="checkbox"></label>
+<label>Rheumatoid Arthritis<input type="checkbox"></label>
+<label>G6PD Deficiency<input type="checkbox"></label>
+<label>Hepatitis / Jaundice<input type="checkbox"></label>
+<label>Hepatitis B Carrier<input type="checkbox"></label>
+<label>Liver Disease<input type="checkbox"></label>
+<label>Gastric Problem<input type="checkbox"></label>
+<label>Tumours / Growths<input type="checkbox"></label>
+<label>Tuberculosis<input type="checkbox"></label>
+<label>Respiratory Problem<input type="checkbox"></label>
+<label>Asthma<input type="checkbox"></label>
+<label>Sinus Problem<input type="checkbox"></label>
+<label>Systemic Lupus Erythematous<input type="checkbox"></label>
+<label>Kidney Disease<input type="checkbox"></label>
+</div>
+
+<label>Drug Allergies</label>
+<textarea name="allergy"></textarea>
+
+</div>
+
+<div class="section">
+<h3>Informed Consent</h3>
+
+<p>
+I understand that dental treatment may involve risks and benefits. 
+I acknowledge that I have discussed treatment options with the dentist 
+and consent to the recommended procedures.
+</p>
+
+<p>
+I understand medications may cause allergic reactions and I agree to follow 
+all instructions given by the dentist.
+</p>
+
+<label>
+<input type="checkbox" required class="inline" required> 
+I have read and agree to the above consent terms.*
+</label>
+
+</div>
+
+<div class="section">
+<label>Patient Name</label>
+<input type="text" name="patient_name">
+
+<label>Parent/Legal Guardian (if under 18)</label>
+<input type="text" name="guardian">
+
+<label>Date</label>
+<input type="date" id="dateInput" name="date">
+<h3>Signature</h3>
+
+<canvas id="signature-pad" class="signature-box"></canvas>
+</div><button type="button" onclick="clearSignature()">Clear Signature</button>
+</P>
+</div>
+
+<div class="footer">
+WIN DENTAL SDN. BHD. (1579600-P)
+</div>
+
+<script>
+const canvas = document.getElementById('signature-pad');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+
+canvas.addEventListener('mousedown', () => drawing = true);
+canvas.addEventListener('mouseup', () => drawing = false);
+canvas.addEventListener('mousemove', draw);
+
+function draw(e) {
+    if (!drawing) return;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
+
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+}
+
+function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+  const today = new Date().toISOString().split('T')[0]; // get YYYY-MM-DD format
+  document.getElementById('dateInput').value = today;
+
+</script>
+
 </body>
 </html>
