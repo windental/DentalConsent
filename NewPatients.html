@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<img src="Images/win-dental-logo.png" class="top-right-logo" alt="Win Dental Logo">
 <head>
 <meta charset="UTF-8">
 <title>Win Dental - Patient Registration & Consent</title>
@@ -102,6 +101,7 @@ button {
 <body>
 
 <div id="pdfContent">
+<img src="Images/win-dental-logo.png" class="top-right-logo" alt="Win Dental Logo">    
 <h1>WIN DENTAL CLINIC</h1>
 <h2>New Patient Registration Form</h2>
 
@@ -342,7 +342,7 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     let position = 0;
     
     while (heightLeft > 0) {
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
         heightLeft -= pdf.internal.pageSize.getHeight();
         if (heightLeft > 0) pdf.addPage();
         position -= pdf.internal.pageSize.getHeight();
