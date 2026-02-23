@@ -278,7 +278,15 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (canvasImage.height * pdfWidth) / canvasImage.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    let heightLeft = pdfHeight;
+    let position = 0;
+    
+    while (heightLeft > 0) {
+        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
+        heightLeft -= pdf.internal.pageSize.getHeight();
+        if (heightLeft > 0) pdf.addPage();
+        position -= pdf.internal.pageSize.getHeight();
+    }
     pdf.save("Patient_Registration.pdf");
 
     alert("Registration submitted!");
