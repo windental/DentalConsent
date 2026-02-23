@@ -328,7 +328,11 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     const { jsPDF } = window.jspdf;
     const element = document.getElementById("pdfContent");
 
-    const canvasImage = await html2canvas(element, { scale: 2 });
+    const canvasImage = await html2canvas(element, { 
+        scale: window.devicePixelRatio || 2, 
+        scrollY: -window.scrollY,  // ensures correct position
+        useCORS: true              // in case images are cross-origin
+    });
     const imgData = canvasImage.toDataURL("image/png");
 
     const pdf = new jsPDF("p", "mm", "a4");
@@ -339,7 +343,7 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     let position = 0;
     
     while (heightLeft > 0) {
-        pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
         heightLeft -= pdf.internal.pageSize.getHeight();
         if (heightLeft > 0) pdf.addPage();
         position -= pdf.internal.pageSize.getHeight();
@@ -362,6 +366,16 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     
     // Save PDF
     pdf.save(filename);
+
+    // iPhone-safe download
+    const pdfBlob = pdf.output('blob');
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(pdfBlob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
 
 
     alert("Registration submitted!");
