@@ -59,18 +59,35 @@ button {
     font-weight: bold;
 }
 
+.checkbox-group input[type="checkbox"] {
+    width: auto;      /* IMPORTANT */
+    margin: 0;
+}
+  
 .checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* two columns */
-    gap: 1px 1px; /* row-gap: 5px, column-gap: 20px */
-    align-items: right;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border: 1px solid #ccc;
 }
 
 .checkbox-group label {
-    display: flex;      /* align checkbox and text horizontally */
-    align-items: center; 
-    gap: 8px;           /* space between checkbox and text */
-}  
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* KEY LINE */
+  padding: 8px 10px;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+/* Remove right border on every 2nd item */
+.checkbox-group label:nth-child(2n) {
+  border-right: none;
+}
+
+/* Remove bottom border on last row */
+.checkbox-group label:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
 </style>
 </head>
 
@@ -78,6 +95,7 @@ button {
 
 <h1>WIN DENTAL CLINIC</h1>
 <h2>New Patient Registration Form</h2>
+<form id="newPTConsentForm">
 
 <div class="section">
 <h3>Personal Information</h3>
@@ -127,8 +145,6 @@ button {
 <h3>Medical Condition</h3>
 
 <div class="checkbox-group">
-  <div><input type="checkbox" id="chk1"><label for="chk1">High Blood Pressure</label></div>
-  <div><input type="checkbox" id="chk2"><label for="chk2">Diabetes Mellitus</label></div>
 <label>High Blood Pressure<input type="checkbox"></label>
 <label>Diabetes Mellitus<input type="checkbox"></label>
 <label>Hypercholesterolemia<input type="checkbox"></label>
@@ -157,6 +173,7 @@ button {
 <label>Kidney Disease<input type="checkbox"></label>
 </div>
 
+</br>  
 <label>Drug Allergies</label>
 <textarea name="allergy"></textarea>
 
@@ -178,7 +195,7 @@ all instructions given by the dentist.
 
 <label>
 <input type="checkbox" required class="inline" required> 
-I have read and agree to the above consent terms.*
+<b>I have read and agree to the above consent terms.*</b>
 </label>
 
 </div>
@@ -194,10 +211,9 @@ I have read and agree to the above consent terms.*
 <input type="date" id="dateInput" name="date">
 <h3>Signature</h3>
 
-<canvas id="signature-pad" class="signature-box"></canvas>
+<canvas id="signature-pad" class="signature-box" required></canvas>
 </div><button type="button" onclick="clearSignature()">Clear Signature</button>
-</P>
-</div>
+      <button type="submit">Submit</button>
 
 <div class="footer">
 WIN DENTAL SDN. BHD. (1579600-P)
@@ -228,9 +244,15 @@ function draw(e) {
 function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-  const today = new Date().toISOString().split('T')[0]; // get YYYY-MM-DD format
-  document.getElementById('dateInput').value = today;
 
+const today = new Date().toISOString().split('T')[0]; // get YYYY-MM-DD format
+document.getElementById('dateInput').value = today;
+
+document.getElementById("newPTConsentForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  alert("Registration submitted!");
+});
+  
 </script>
 
 </body>
