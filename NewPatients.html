@@ -211,7 +211,7 @@ all instructions given by the dentist.
 <input type="date" id="dateInput" name="date">
 <h3>Signature</h3>
 
-<canvas id="signature-pad" class="signature-box"></canvas>
+<canvas id="signature-pad" class="signature-box" required></canvas>
 </div><button type="button" onclick="clearSignature()">Clear Signature</button>
       <button type="submit">Submit</button>
 
@@ -227,10 +227,11 @@ let drawing = false;
 canvas.addEventListener('mousedown', () => drawing = true);
 canvas.addEventListener('mouseup', () => drawing = false);
 canvas.addEventListener('mousemove', draw);
+
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
-    
-function draw(e) {
+
+  function draw(e) {
     if (!drawing) return;
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
@@ -268,9 +269,29 @@ document.getElementById("newPTConsentForm").addEventListener("submit", function(
       alert("Please provide your signature before submitting.");
       return;
   }
+    const { jsPDF } = window.jspdf;
+
+    const element = document.getElementById("pdfContent");
+
+    const canvasImage = await html2canvas(element, {
+        scale: 2
+    });
+
+    const imgData = canvasImage.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvasImage.height * pdfWidth) / canvasImage.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    pdf.save("Patient_Registration.pdf");
+  
   alert("Registration submitted!");
 });
-  
+src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">  
 </script>
 
 </body>
