@@ -351,14 +351,14 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
     // Generate timestamp
     const now = new Date();
     const timestamp = now.getFullYear() + '-' +
-                      String(now.getMonth() + 1).padStart(2, '0') + '-' +
-                      String(now.getDate()).padStart(2, '0') + '_' +
-                      String(now.getHours()).padStart(2, '0') + '-' +
-                      String(now.getMinutes()).padStart(2, '0') + '-' +
+                      String(now.getMonth() + 1).padStart(2, '0') +
+                      String(now.getDate()).padStart(2, '0') +
+                      String(now.getHours()).padStart(2, '0')  +
+                      String(now.getMinutes()).padStart(2, '0') +
                       String(now.getSeconds()).padStart(2, '0');
     
     // Combine for filename
-    const filename = `${timestamp}_New_Patient_${patientName}.pdf`;
+    const filename = `${timestamp}NewPatient_${patientName}.pdf`;
     
     // Save PDF
     pdf.save(filename);
