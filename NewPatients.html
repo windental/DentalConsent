@@ -14,7 +14,6 @@ body {
     background-repeat: no-repeat;
     background-position: top 20px left 20px;
     background-size: 150px; /* adjust size */
-    opacity: 0.15;
 }
 
 h1, h2 {
@@ -317,7 +316,7 @@ document.getElementById("newPTConsentForm").addEventListener("submit", async fun
                       String(now.getSeconds()).padStart(2, '0');
     
     // Combine for filename
-    const filename = `Patient_Registration_${patientName}_${timestamp}.pdf`;
+    const filename = `${timestamp}_New_Patient_${patientName}.pdf`;
     
     // Save PDF
     pdf.save(filename);
