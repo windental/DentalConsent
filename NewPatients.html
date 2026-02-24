@@ -133,7 +133,7 @@ button {
 <input type="text" id="name" name="name" required>
 
 <label>NRIC/Passport No/ 身份证/护照号码/ No. Kad Pengenalan Passport*</label>
-<input type="text" name="nric" name="nric" required>
+<input type="text" id="nric" name="nric" required>
     
 <label>Birthday/ 生日/ Tarikh Lahir*</label>
 <input type="date" id="birthday" name="birthday" required>
@@ -310,12 +310,12 @@ window.onload = function() {
   const mobile = getQueryParam('mobile') || '';
   const birthday = getQueryParam('birthday') || '';  
   const nric = getQueryParam('nric') || '';
-  const email = getQueryParam('email') || '';    
+  const email = getQueryParam('email') || '';  
 
   if (name) {
-      document.getElementById('name').value = name;
-      document.getElementById('patient_name').value = name;
-    }
+    document.getElementById('name').value = name;
+    document.getElementById('patient_name').value = name;
+  }
   if (mobile) document.getElementById('mobile').value = mobile;
   if (birthday) document.getElementById('birthday').value = birthday;
   if (nric) document.getElementById('nric').value = nric;
