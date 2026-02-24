@@ -148,16 +148,16 @@ button {
 <input type="text" name="home">
 
 <label>Address/ 地址/ Alamat</label>
-<textarea name="address"></textarea>
+<textarea id="address" name="address"></textarea>
 
 <label>Postcode/ 邮编/ Poskod</label>
-<input type="text" name="postcode">
+<input id="postcode" type="text" name="postcode">
 
 <label>City/State/ 城市/州/ Bandar/Negeri</label>
-<input type="text" name="city">
+<input id="city" type="text" name="city">
 
 <label>Country/ 国家/ Negara</label>
-<input type="text" name="country">
+<input id="country" type="text" name="country">
 
 <label>Occupation/ 职业/ Pekerjaan</label>
 <input type="text" name="occupation">
@@ -311,6 +311,10 @@ window.onload = function() {
   const birthday = getQueryParam('birthday') || '';  
   const nric = getQueryParam('nric') || '';
   const email = getQueryParam('email') || '';  
+  const address = getQueryParam('address') || '';  
+  const postcode = getQueryParam('postcode') || '';  
+  const city = getQueryParam('city') || '';  
+  const country = getQueryParam('country') || '';  
 
   if (name) {
     document.getElementById('name').value = name;
@@ -320,6 +324,10 @@ window.onload = function() {
   if (birthday) document.getElementById('birthday').value = birthday;
   if (nric) document.getElementById('nric').value = nric;
   if (email) document.getElementById('email').value = email;
+  if (address) document.getElementById('address').value = address;
+  if (postcode) document.getElementById('postcode').value = postcode;
+  if (city) document.getElementById('city').value = city;
+  if (country) document.getElementById('country').value = country;
 }   
     
 const mainNameField = document.querySelector('input[name="name"]');
