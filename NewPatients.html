@@ -270,7 +270,7 @@ Regulatory authorities or courts when required by law
 
 <div class="section">
 <label>Patient Name</label>
-<input type="text" name="patient_name">
+<input type="text" id="patient_name" name="patient_name">
 
 <label>Parent/Legal Guardian(For patient is under 18 years old)</label>
 <input type="text" name="guardian">
@@ -307,9 +307,16 @@ window.onload = function() {
   }
 
   const name = getQueryParam('name') || '';  
-  const email = getQueryParam('email') || '';
+  const mobile = getQueryParam('mobile') || '';
+  const birthday = getQueryParam('birthday') || '';  
+  const nric = getQueryParam('nric') || '';
+  const email = getQueryParam('email') || '';    
 
   if (name) document.getElementById('name').value = name;
+  if (name) document.getElementById('patient_name').value = name;
+  if (email) document.getElementById('mobile').value = mobile;
+  if (email) document.getElementById('birthday').value = birthday;
+  if (email) document.getElementById('nric').value = nric;
   if (email) document.getElementById('email').value = email;
 }   
     
