@@ -132,20 +132,20 @@ button {
 <label>Name/ 姓名/ Nama*</label>
 <input type="text" id="name" name="name" required>
 
+<label>NRIC/Passport No/ 身份证/护照号码/ No. Kad Pengenalan Passport*</label>
+<input type="text" name="nric" name="nric" required>
+    
 <label>Birthday/ 生日/ Tarikh Lahir*</label>
 <input type="date" id="birthday" name="birthday" required>
 
 <label>Mobile Phone/ 手提电话/ Tel. Bimbit*</label>
 <input type="text" id="mobile" name="mobile" required>
 
-<label>Home Tel/ 住家电话/ Tel.No.Rumah</label>
-<input type="text" name="home">
-
 <label>Email/ 电邮/ E-mel*</label>
 <input type="email" id="email" name="email" required>
-
-<label>NRIC/Passport No/ 身份证/护照号码/ No. Kad Pengenalan Passport*</label>
-<input type="text" name="nric" name="nric" required>
+    
+<label>Home Tel/ 住家电话/ Tel.No.Rumah</label>
+<input type="text" name="home">
 
 <label>Address/ 地址/ Alamat</label>
 <textarea name="address"></textarea>
@@ -312,11 +312,13 @@ window.onload = function() {
   const nric = getQueryParam('nric') || '';
   const email = getQueryParam('email') || '';    
 
-  if (name) document.getElementById('name').value = name;
-  if (name) document.getElementById('patient_name').value = name;
-  if (email) document.getElementById('mobile').value = mobile;
-  if (email) document.getElementById('birthday').value = birthday;
-  if (email) document.getElementById('nric').value = nric;
+  if (name) {
+      document.getElementById('name').value = name;
+      document.getElementById('patient_name').value = name;
+    }
+  if (mobile) document.getElementById('mobile').value = mobile;
+  if (birthday) document.getElementById('birthday').value = birthday;
+  if (nric) document.getElementById('nric').value = nric;
   if (email) document.getElementById('email').value = email;
 }   
     
